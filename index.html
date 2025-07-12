@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD con Render</title>
+    <style>
+        body { font-family: Arial; max-width: 800px; margin: 0 auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Administrador de Productos</h1>
+    
+    <form id="productForm">
+        <input type="hidden" id="productId">
+        <input type="text" id="name" placeholder="Nombre" required>
+        <input type="number" id="price" placeholder="Precio" required>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <table id="productsTable">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Conexión a tu API en Render (cambia la URL después del despliegue)
+        const API_URL = 'https://tu-api-en-render.onrender.com/api/products';
+
+        // Cargar productos al iniciar
+        document.addEventListener('DOMContentLoaded', loadProducts);
+
+        async function loadProducts() {
+            const response = await fetch(API_URL);
+            const products = await response.json();
+            const tbody = document.querySelector('#productsTable tbody');
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>${product.name}</td>
+                    <td>$${product.price}</td>
+                    <td>
+                        <button onclick="editProduct(${product.id})">Editar</button>
+                        <button onclick="deleteProduct(${product.id})">Eliminar</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Implementa aquí las funciones para crear/editar/eliminar
+        // (Similar al ejemplo anterior pero usando fetch a tu API)
+    </script>
+</body>
+</html>
